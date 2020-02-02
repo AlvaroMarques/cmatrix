@@ -167,6 +167,10 @@ void *nmalloc(size_t howmuch) {
     return r;
 }
 
+int **char_matrix;
+char string_rpl[] = "o cara, parabens ai velho, de boa, muito legal isso. contei pra todos aqui da minha familia, todos acharam muito surpreendente e pediram pra te dar os parabens, queriam falar com você pessoalmente se possivel para lhe parabenizar. disseram também que na festa de natal irão contar para os parentes mais distantes e no ano novo lançarão baterias de fogos com seu nome. contei esse seu feito também para alguns outros parentes mais próximos, reagiram tal qual minha familia, pediram seu endereço para mandar cartões e mensagem de parabenização. meus amigos não acreditaram quando eu disse qu";
+int counter = 0;
+
 /* Initialize the global variables */
 void var_init() {
     int i, j;
@@ -215,8 +219,16 @@ void var_init() {
         matrix[1][j].val = ' ';
 
         /* And set updates[] array for update speed. */
-        updates[j] = (int) rand() % 3 + 1;
+		updates[j] = (int) rand() % 3 + 1;
     }
+    char_matrix = malloc(LINES * sizeof(int*));
+    for (i = 0; i < LINES; i++){
+		char_matrix[i] = malloc(COLS*sizeof(int));
+        for(j = 0; j < COLS; j++){
+			char_matrix[i][j] = 98;//string_rpl[counter++%589];
+		}
+    }
+	
 
 }
 
@@ -359,7 +371,7 @@ int main(int argc, char *argv[]) {
         case 'u':
             update = atoi(optarg);
             break;
-        case 'x':
+        case ' ':
             xwindow = 1;
             break;
         case 'V':
@@ -646,8 +658,8 @@ if (console) {
                             matrix[z][j].val = ' ';
                             continue;
                         }
-
-                        matrix[i][j].val = (int) rand() % randnum + randmin;
+			char *string = "helloworld";
+                        matrix[i][j].val = (int) string[(i+j)%strlen(string)];// (int) rand() % randnum + randmin;
                         matrix[i][j].is_head = true;
 
                         /* If we're at the top of the collumn and it's reached its
