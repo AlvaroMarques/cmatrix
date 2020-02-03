@@ -351,7 +351,7 @@ int main(int argc, char *argv[]) {
             force = 1;
             break;
 	case 'F':
-	    file_read = 1;
+		file_read = 1;
 		FILE *pFile;
 		pFile = fopen(argv[2],"r");
 		char *fcontent;
@@ -364,7 +364,7 @@ int main(int argc, char *argv[]) {
 			file_read_string = malloc(10);
 			strcpy(file_read_string, argv[2]);
 		}
-	    break;
+		break;
         case 'l':
             console = 1;
             break;
@@ -671,10 +671,10 @@ if (console) {
                             matrix[z][j].val = ' ';
                             continue;
                         }
-			if (file_read)
-                        	matrix[i][j].val = (int) file_read_string[(i*COLS+j/2)%strlen(file_read_string)];// (int) rand() % randnum + randmin;
-			else
-                        	matrix[i][j].val = (int) string[(i*COLS+j/2)%strlen(string)];// (int) rand() % randnum + randmin;
+						if (file_read)
+							matrix[i][j].val = (int) file_read_string[(i*COLS+j/2)%strlen(file_read_string)];// (int) rand() % randnum + randmin;
+						else
+							matrix[i][j].val = (int) string[(i*COLS+j/2)%strlen(string)];// (int) rand() % randnum + randmin;
                         matrix[i][j].is_head = true;
 
                         /* If we're at the top of the collumn and it's reached its
