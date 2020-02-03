@@ -133,6 +133,7 @@ void usage(void) {
     printf(" -B: All bold characters (overrides -b)\n");
     printf(" -c: Use Japanese characters as seen in the original matrix. Requires appropriate fonts\n");
     printf(" -f: Force the linux $TERM type to be on\n");
+    printf(" -F [file name]: FileRead mode, instead of random characters the cmatrix uses a text from [file name]\n");
     printf(" -l: Linux mode (uses matrix console font)\n");
     printf(" -L: Lock mode (can be closed from another terminal)\n");
     printf(" -o: Use old-style scrolling\n");
@@ -360,7 +361,7 @@ int main(int argc, char *argv[]) {
             file_read_string = malloc(sizeof(char)*file_size);
             fread(file_read_string, 1, file_size, pFile);
         }else{
-            c_die("File not found");
+            c_die("File not found!\n");
         }
         break;
         case 'l':
