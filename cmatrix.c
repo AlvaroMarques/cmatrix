@@ -174,7 +174,6 @@ long fsize (FILE *fp){
     return size;
 }
 
-char *string = "Ola,.Me.desculpe..Eu.vi.sua.foto.de.perfil.e.eu.achei.voce.muito.linda.nesta.foto,.((Eu.gostaria.de.lhe.dizer.isto)).De.fato,.E.muito.raro.de.ver.garotas.jogando.video.games.haha!.Eu.nao.sei.porque.isso.e.tao.coisa.de.garoto.e.sinceramente.eu.sou.tipo.muito.contra.misoginia.e.tipo.eu.sou.o.cara.que.estara.na.cozinha.fazendo.sanduiches.ta.ligado?.Nos.deviamos.jogar.Left.4.Dead.2.algum.dia..E.um.jogo.de.zumbi.muito.legal.com.varios.momentos.assustadores..Porem,.Nao.se.preocupe,.Estarei.aqui.para.protege-la.wink.Desculpe,.Nao.estou.flertando.eu.juro.eu.so.estou.tentando.ser.amigavel.pois.realmente.gostei.da.sua.foto.de.perfil.desculpe.sera.que.fui.longe.demais?.Mil.perdoes,.Eu.sou.realmente.muito.timido.pois.nao.saio.muito.haha.me.adiciona.no.skype.ou.no.whats.nos.deviamos.conversar.mais.voce.aparenta.ser.bem.legal.e.divertida";
 /* Initialize the global variables */
 void var_init() {
     int i, j;
@@ -357,12 +356,11 @@ int main(int argc, char *argv[]) {
         char *fcontent;
         if (pFile!=NULL)
         {
-            long size = fsize(pFile);
-            file_read_string = malloc(sizeof(char)*size);
-            fread(file_read_string, 1, size, pFile);
+            long file_size = fsize(pFile);
+            file_read_string = malloc(sizeof(char)*file_size);
+            fread(file_read_string, 1, file_size, pFile);
         }else{
-            file_read_string = malloc(10);
-            strcpy(file_read_string, argv[2]);
+            c_die("File not found");
         }
         break;
         case 'l':
@@ -671,11 +669,13 @@ if (console) {
                             matrix[z][j].val = ' ';
                             continue;
                         }
-                        if (file_read)
-                            matrix[i][j].val = (int) file_read_string[(i*COLS+j/2)%strlen(file_read_string)];// (int) rand() % randnum + randmin;
-                        else
-                            matrix[i][j].val = (int) string[(i*COLS+j/2)%strlen(string)];// (int) rand() % randnum + randmin;
-                        matrix[i][j].is_head = true;
+                        if (file_read){
+                            int file_val  = (int) file_read_string[(i*COLS+j/2)%strlen(file_read_string)];
+                            matrix[i][j].val = (file_val != ((int) ' '))?file_val:((int) '.');
+						}else{
+                            matrix[i][j].val = (int) rand() % randnum + randmin;
+						}
+						matrix[i][j].is_head = true;
 
                         /* If we're at the top of the collumn and it's reached its
                            full length (about to start moving down), we do this
