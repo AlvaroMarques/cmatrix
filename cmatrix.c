@@ -168,10 +168,10 @@ void *nmalloc(size_t howmuch) {
 }
 
 long fsize (FILE *fp){
-	fseek(fp, 0, SEEK_END); 
-	long size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	return size;
+    fseek(fp, 0, SEEK_END); 
+    long size = ftell(fp);
+    fseek(fp, 0, SEEK_SET);
+    return size;
 }
 
 char *string = "Ola,.Me.desculpe..Eu.vi.sua.foto.de.perfil.e.eu.achei.voce.muito.linda.nesta.foto,.((Eu.gostaria.de.lhe.dizer.isto)).De.fato,.E.muito.raro.de.ver.garotas.jogando.video.games.haha!.Eu.nao.sei.porque.isso.e.tao.coisa.de.garoto.e.sinceramente.eu.sou.tipo.muito.contra.misoginia.e.tipo.eu.sou.o.cara.que.estara.na.cozinha.fazendo.sanduiches.ta.ligado?.Nos.deviamos.jogar.Left.4.Dead.2.algum.dia..E.um.jogo.de.zumbi.muito.legal.com.varios.momentos.assustadores..Porem,.Nao.se.preocupe,.Estarei.aqui.para.protege-la.wink.Desculpe,.Nao.estou.flertando.eu.juro.eu.so.estou.tentando.ser.amigavel.pois.realmente.gostei.da.sua.foto.de.perfil.desculpe.sera.que.fui.longe.demais?.Mil.perdoes,.Eu.sou.realmente.muito.timido.pois.nao.saio.muito.haha.me.adiciona.no.skype.ou.no.whats.nos.deviamos.conversar.mais.voce.aparenta.ser.bem.legal.e.divertida";
@@ -223,7 +223,7 @@ void var_init() {
         matrix[1][j].val = ' ';
 
         /* And set updates[] array for update speed. */
-		updates[j] = (int) rand() % 3 + 1;
+        updates[j] = (int) rand() % 3 + 1;
     }
 
 }
@@ -350,21 +350,21 @@ int main(int argc, char *argv[]) {
         case 'f':
             force = 1;
             break;
-	case 'F':
-		file_read = 1;
-		FILE *pFile;
-		pFile = fopen(argv[2],"r");
-		char *fcontent;
-		if (pFile!=NULL)
-		{
-			long size = fsize(pFile);
-			file_read_string = malloc(sizeof(char)*size);
-			fread(file_read_string, 1, size, pFile);
-		}else{
-			file_read_string = malloc(10);
-			strcpy(file_read_string, argv[2]);
-		}
-		break;
+    case 'F':
+        file_read = 1;
+        FILE *pFile;
+        pFile = fopen(argv[2],"r");
+        char *fcontent;
+        if (pFile!=NULL)
+        {
+            long size = fsize(pFile);
+            file_read_string = malloc(sizeof(char)*size);
+            fread(file_read_string, 1, size, pFile);
+        }else{
+            file_read_string = malloc(10);
+            strcpy(file_read_string, argv[2]);
+        }
+        break;
         case 'l':
             console = 1;
             break;
@@ -671,10 +671,10 @@ if (console) {
                             matrix[z][j].val = ' ';
                             continue;
                         }
-						if (file_read)
-							matrix[i][j].val = (int) file_read_string[(i*COLS+j/2)%strlen(file_read_string)];// (int) rand() % randnum + randmin;
-						else
-							matrix[i][j].val = (int) string[(i*COLS+j/2)%strlen(string)];// (int) rand() % randnum + randmin;
+                        if (file_read)
+                            matrix[i][j].val = (int) file_read_string[(i*COLS+j/2)%strlen(file_read_string)];// (int) rand() % randnum + randmin;
+                        else
+                            matrix[i][j].val = (int) string[(i*COLS+j/2)%strlen(string)];// (int) rand() % randnum + randmin;
                         matrix[i][j].is_head = true;
 
                         /* If we're at the top of the collumn and it's reached its
