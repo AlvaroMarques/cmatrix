@@ -167,10 +167,14 @@ void *nmalloc(size_t howmuch) {
     return r;
 }
 
-int **char_matrix;
-char string_rpl[] = "o cara, parabens ai velho, de boa, muito legal isso. contei pra todos aqui da minha familia, todos acharam muito surpreendente e pediram pra te dar os parabens, queriam falar com você pessoalmente se possivel para lhe parabenizar. disseram também que na festa de natal irão contar para os parentes mais distantes e no ano novo lançarão baterias de fogos com seu nome. contei esse seu feito também para alguns outros parentes mais próximos, reagiram tal qual minha familia, pediram seu endereço para mandar cartões e mensagem de parabenização. meus amigos não acreditaram quando eu disse qu";
-int counter = 0;
+long fsize (FILE *fp){
+	fseek(fp, 0, SEEK_END); 
+	long size = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+	return size;
+}
 
+char *string = "Ola,.Me.desculpe..Eu.vi.sua.foto.de.perfil.e.eu.achei.voce.muito.linda.nesta.foto,.((Eu.gostaria.de.lhe.dizer.isto)).De.fato,.E.muito.raro.de.ver.garotas.jogando.video.games.haha!.Eu.nao.sei.porque.isso.e.tao.coisa.de.garoto.e.sinceramente.eu.sou.tipo.muito.contra.misoginia.e.tipo.eu.sou.o.cara.que.estara.na.cozinha.fazendo.sanduiches.ta.ligado?.Nos.deviamos.jogar.Left.4.Dead.2.algum.dia..E.um.jogo.de.zumbi.muito.legal.com.varios.momentos.assustadores..Porem,.Nao.se.preocupe,.Estarei.aqui.para.protege-la.wink.Desculpe,.Nao.estou.flertando.eu.juro.eu.so.estou.tentando.ser.amigavel.pois.realmente.gostei.da.sua.foto.de.perfil.desculpe.sera.que.fui.longe.demais?.Mil.perdoes,.Eu.sou.realmente.muito.timido.pois.nao.saio.muito.haha.me.adiciona.no.skype.ou.no.whats.nos.deviamos.conversar.mais.voce.aparenta.ser.bem.legal.e.divertida";
 /* Initialize the global variables */
 void var_init() {
     int i, j;
@@ -221,14 +225,6 @@ void var_init() {
         /* And set updates[] array for update speed. */
 		updates[j] = (int) rand() % 3 + 1;
     }
-    char_matrix = malloc(LINES * sizeof(int*));
-    for (i = 0; i < LINES; i++){
-		char_matrix[i] = malloc(COLS*sizeof(int));
-        for(j = 0; j < COLS; j++){
-			char_matrix[i][j] = 98;//string_rpl[counter++%589];
-		}
-    }
-	
 
 }
 
@@ -301,13 +297,15 @@ int main(int argc, char *argv[]) {
     int pause = 0;
     int classic = 0;
     int changes = 0;
-
+    int file_read = 0;
+    char *filename;
+    char *file_read_string = NULL;
     srand((unsigned) time(NULL));
     setlocale(LC_ALL, "");
 
     /* Many thanks to morph- (morph@jmss.com) for this getopt patch */
     opterr = 0;
-    while ((optchr = getopt(argc, argv, "abBcfhlLnrosmxkVu:C:")) != EOF) {
+    while ((optchr = getopt(argc, argv, "abBcfFhlLnrosmxkVu:C:")) != EOF) {
         switch (optchr) {
         case 's':
             screensaver = 1;
@@ -352,6 +350,21 @@ int main(int argc, char *argv[]) {
         case 'f':
             force = 1;
             break;
+	case 'F':
+	    file_read = 1;
+		FILE *pFile;
+		pFile = fopen(argv[2],"r");
+		char *fcontent;
+		if (pFile!=NULL)
+		{
+			long size = fsize(pFile);
+			file_read_string = malloc(sizeof(char)*size);
+			fread(file_read_string, 1, size, pFile);
+		}else{
+			file_read_string = malloc(10);
+			strcpy(file_read_string, argv[2]);
+		}
+	    break;
         case 'l':
             console = 1;
             break;
@@ -658,8 +671,10 @@ if (console) {
                             matrix[z][j].val = ' ';
                             continue;
                         }
-			char *string = "helloworld";
-                        matrix[i][j].val = (int) string[(i+j)%strlen(string)];// (int) rand() % randnum + randmin;
+			if (file_read)
+                        	matrix[i][j].val = (int) file_read_string[(i*COLS+j/2)%strlen(file_read_string)];// (int) rand() % randnum + randmin;
+			else
+                        	matrix[i][j].val = (int) string[(i*COLS+j/2)%strlen(string)];// (int) rand() % randnum + randmin;
                         matrix[i][j].is_head = true;
 
                         /* If we're at the top of the collumn and it's reached its
